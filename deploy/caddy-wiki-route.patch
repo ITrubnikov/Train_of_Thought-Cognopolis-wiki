@@ -1,0 +1,45 @@
+diff --git a/Caddyfile b/Caddyfile
+index 6aee049..d318c92 100644
+--- a/Caddyfile
++++ b/Caddyfile
+@@ -66,9 +66,24 @@ kindomklaster.com {
+ 	#   'self' внедрённый скрипт не исполнится, так что поверхность атаки это не расширяет.
+ 	# - img/media data:: фиче-детекция webp/avif/webm у Pixi (иначе шумит violations).
+ 	# - frame-ancestors 'self' зеркалит X-Frame-Options SAMEORIGIN выше.
+-	@spa not path /docs* /redoc* /openapi.json
++	@spa not path /docs* /redoc* /openapi.json /wiki*
+ 	header @spa Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' data:; connect-src 'self'; font-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+ 
++	# Вики (MYH-86) — своя CSP: MkDocs Material несёт инлайн-скрипты темы, а mermaid-схемы
++	# грузятся в рантайме с unpkg.com (тот же прецедент CDN-исключения, что /docs* + jsdelivr,
++	# D-077). Контент статический и без auth — поверхность атаки минимальна.
++	@wiki path /wiki*
++	header @wiki Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
++
++	# Вики игры (MYH-86): статический рендер витрины -obsidian-for-man (build.sh того репо).
++	# HTML лежит на хосте в /opt/cognopolis/wiki, в контейнер смонтирован как /srv/wiki
++	# (docker-compose.deploy.yml). handle_path срезает префикс /wiki — ссылки в HTML относительные.
++	redir /wiki /wiki/ permanent
++	handle_path /wiki/* {
++		root * /srv/wiki
++		file_server
++	}
++
+ 	reverse_proxy app:8000
+ }
+ 
+diff --git a/docker-compose.deploy.yml b/docker-compose.deploy.yml
+index 803d4ac..9670e9d 100644
+--- a/docker-compose.deploy.yml
++++ b/docker-compose.deploy.yml
+@@ -33,6 +33,10 @@ services:
+       # `up -d` — the deploy workflow runs `caddy validate` + `caddy reload` after
+       # `up -d` (D-033), так что live-Caddy подхватывает edge-лимиты без пересоздания.
+       - ./Caddyfile:/etc/caddy/Caddyfile:ro
++      # Вики (MYH-86): статический HTML витрины -obsidian-for-man, отдаётся Caddy на /wiki.
++      # Кладётся в /opt/cognopolis/wiki отдельно от CI движка (rsync собранного site/);
++      # пустой каталог до первой выкладки = честный 404 на /wiki, приложение не задето.
++      - ./wiki:/srv/wiki:ro
+       - caddy_data:/data       # ACME certs & keys — MUST persist across deploys
+       - caddy_config:/config
+ 

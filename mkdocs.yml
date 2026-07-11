@@ -1,0 +1,89 @@
+# Статический рендер витрины Cognopolis (MYH-86).
+# Сборка: ./build.sh — стейджит README.md как index + docs/ в .build/docs и зовёт mkdocs.
+# Публикация: kindomklaster.com/wiki (Caddy file_server; маршрут — Caddyfile репо движка).
+# Контент живёт ТОЛЬКО в docs/ и README.md — .build/ и site/ генерируются, в git не идут.
+
+site_name: Cognopolis — вики игры
+site_url: https://kindomklaster.com/wiki/
+site_description: >-
+  Браузерная MMO, в которой ты программируешь агентов, играющих за тебя.
+  Документация для игроков, студентов курса и разработчиков.
+
+docs_dir: .build/docs
+site_dir: site
+
+theme:
+  name: material
+  language: ru
+  # Без Google Fonts: системные шрифты → страница самодостаточна, CSP без fonts.googleapis.
+  font: false
+  palette:
+    # Гритти-фэнтези витрине — тёмная схема по умолчанию, светлая по тумблеру.
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Светлая тема
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Тёмная тема
+  features:
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - content.code.copy
+
+nav:
+  - Главная: index.md
+  - Обзор:
+      - Концепция: 01-обзор/концепция.md
+      - Роадмап: 01-обзор/роадмап.md
+  - Игроку:
+      - Быстрый старт: 02-игроку/быстрый-старт.md
+      - Свой агент: 02-игроку/свой-агент.md
+  - Системы:
+      - Мир и карта: 03-системы/мир-и-карта.md
+      - Бой: 03-системы/бой.md
+      - Крафт и здания: 03-системы/крафт-и-здания.md
+      - Экономика и Базар: 03-системы/экономика-и-базар.md
+      - Жители и задачи: 03-системы/жители-и-задачи.md
+  - Разработчику:
+      - Запуск и архитектура: 04-разработчику/запуск-и-архитектура.md
+      - Деплой и прод: 04-разработчику/деплой-и-прод.md
+      - Документация проекта: 04-разработчику/документация-проекта.md
+      - Конвейер задач агентам: 04-разработчику/конвейер-задач-агентам.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+
+plugins:
+  - search:
+      lang: ru
+
+# Ссылка «редактировать» не нужна — витрина правится агентами по конвейеру, не PR-ами гостей.
+# validation: warn → билд честно перечисляет битые ссылки; absolute_links тоже ловим.
+validation:
+  links:
+    not_found: warn
+    absolute_links: warn
+    unrecognized_links: warn

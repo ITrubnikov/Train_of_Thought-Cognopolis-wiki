@@ -12,8 +12,12 @@ cd "$(dirname "$0")"
 rm -rf .build site
 mkdir -p .build/docs
 cp -R docs/. .build/docs/
-# README — обложка репо → главная страница вики; её ссылки вида (docs/…) становятся (…).
-sed 's|](docs/|](|g' README.md > .build/docs/index.md
+# Публичная вики — ТОЛЬКО игроку (решение автора 2026-07-12): раздел разработчика —
+# внутренний, движок не выкладываем. Страницы остаются в docs/ для команды.
+rm -rf '.build/docs/04-разработчику'
+# README — обложка репо → главная страница вики; её ссылки вида (docs/…) становятся (…),
+# блоки <!-- wiki:internal-start/end --> (команда/разработчик) вырезаются.
+sed 's|](docs/|](|g' README.md | sed '/wiki:internal-start/,/wiki:internal-end/d' > .build/docs/index.md
 
 if command -v uv >/dev/null 2>&1; then
     uv tool run --from 'mkdocs>=1.6,<2' --with 'mkdocs-material>=9.5,<10' mkdocs build

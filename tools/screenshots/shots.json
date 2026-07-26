@@ -1,0 +1,550 @@
+[
+  {
+    "name": "vhod",
+    "stage": "login",
+    "route": null,
+    "clip": {
+      "sel": ".card",
+      "pad": 46
+    },
+    "callouts": [
+      {
+        "sel": ".card input",
+        "n": 1
+      },
+      {
+        "sel": "b:Войти",
+        "n": 2
+      },
+      {
+        "sel": ".dev",
+        "n": 3
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "poselenie-tur",
+    "route": "/",
+    "settle": 3800,
+    "callouts": [
+      {
+        "sel": "header.top",
+        "pad": 4,
+        "n": 1
+      },
+      {
+        "sel": ".resbar",
+        "n": 2
+      },
+      {
+        "sel": ".bld.gate",
+        "n": 3,
+        "side": "right"
+      },
+      {
+        "sel": "aside.side",
+        "n": 4
+      },
+      {
+        "sel": ".buildbar",
+        "n": 5
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "poselenie-chisto",
+    "route": "/",
+    "settle": 2600,
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "stroyka",
+    "route": "/",
+    "settle": 2600,
+    "before": [
+      [
+        "js",
+        "document.querySelector('.buildbar').scrollIntoView({block:'end'})",
+        1200
+      ]
+    ],
+    "clip": {
+      "sel": ".buildbar",
+      "pad": 14
+    },
+    "callouts": [
+      {
+        "sel": ".bb-hint",
+        "n": 1,
+        "pad": 4
+      },
+      {
+        "sel": ".bcard",
+        "n": 2,
+        "pad": 6,
+        "side": "right"
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "mir-tur",
+    "route": "/world",
+    "settle": 5200,
+    "callouts": [
+      {
+        "sel": ".cg-body > aside.cg-col",
+        "n": 1
+      },
+      {
+        "sel": "main.cg-col.map",
+        "n": 2
+      },
+      {
+        "sel": ".legend",
+        "n": 3
+      },
+      {
+        "sel": ".cg-body > aside.cg-col:nth-of-type(2)",
+        "n": 4,
+        "side": "right"
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "mir-karta",
+    "route": "/world",
+    "settle": 5200,
+    "clip": {
+      "sel": "main.cg-col.map",
+      "pad": 8
+    },
+    "callouts": [
+      {
+        "sel": "canvas",
+        "frac": [
+          0.02,
+          0.02,
+          0.12,
+          0.15
+        ],
+        "n": 1
+      },
+      {
+        "sel": "canvas",
+        "frac": [
+          0.41,
+          0.43,
+          0.12,
+          0.15
+        ],
+        "n": 2
+      },
+      {
+        "sel": "canvas",
+        "frac": [
+          0.68,
+          0.72,
+          0.26,
+          0.15
+        ],
+        "n": 3,
+        "side": "right"
+      },
+      {
+        "sel": "canvas",
+        "frac": [
+          0.12,
+          0.85,
+          0.16,
+          0.14
+        ],
+        "n": 4
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "agent-glazami",
+    "route": "/world",
+    "settle": 5200,
+    "clip": {
+      "sel": ".cg-body > aside.cg-col",
+      "pad": 10
+    },
+    "callouts": [
+      {
+        "sel": ".diag-slot",
+        "n": 1
+      },
+      {
+        "sel": ".dpad",
+        "n": 2
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "hronika",
+    "route": "/world",
+    "settle": 5200,
+    "clip": {
+      "sel": ".cg-body > aside.cg-col:nth-of-type(2)",
+      "pad": 10
+    },
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "ratusha-porucheniya",
+    "route": "/town-hall",
+    "settle": 3600,
+    "callouts": [
+      {
+        "sel": "b:поручения",
+        "n": 1
+      },
+      {
+        "sel": "t:принимает команды от старосты",
+        "n": 2
+      },
+      {
+        "sel": "t:в работе ничего",
+        "n": 3
+      },
+      {
+        "sel": "t:очередь ·",
+        "n": 4
+      },
+      {
+        "sel": "b:добавить в очередь",
+        "n": 5,
+        "side": "right"
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "ratusha-tseli",
+    "route": "/town-hall",
+    "settle": 3200,
+    "before": [
+      [
+        "click",
+        "b:цели поселения",
+        1600
+      ]
+    ],
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "ratusha-akkaunt",
+    "route": "/town-hall",
+    "settle": 3200,
+    "before": [
+      [
+        "key",
+        "Escape",
+        500
+      ],
+      [
+        "click",
+        "t:аккаунт",
+        1800
+      ]
+    ],
+    "mask": [
+      ".tn + code",
+      "code"
+    ],
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "naym",
+    "route": "/town-hall",
+    "settle": 3200,
+    "before": [
+      [
+        "click",
+        "b:поручения",
+        1600
+      ]
+    ],
+    "clip": {
+      "sel": ".hire-form",
+      "pad": 26
+    },
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "lesopilka-tur",
+    "route": "/sawmill",
+    "settle": 3600,
+    "callouts": [
+      {
+        "sel": ".rc",
+        "n": 1
+      },
+      {
+        "sel": "b:сделать сейчас · топорище",
+        "n": 2,
+        "side": "right"
+      },
+      {
+        "sel": "b:поручить 3 ×",
+        "n": 3,
+        "side": "right"
+      },
+      {
+        "sel": ".q-count",
+        "n": 4
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "spravochnik",
+    "route": "/codex",
+    "settle": 3200,
+    "callouts": [
+      {
+        "sel": "b:рецепты",
+        "n": 1
+      },
+      {
+        "sel": "b:статы",
+        "n": 2,
+        "side": "right"
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "bazar",
+    "route": "/market",
+    "settle": 3200,
+    "callouts": [
+      {
+        "sel": "b:дерево",
+        "n": 1
+      },
+      {
+        "sel": "t:книга ·",
+        "n": 2
+      },
+      {
+        "sel": "t:выставить ордер",
+        "n": 3
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "torgovets",
+    "route": "/trader",
+    "settle": 3200,
+    "callouts": [
+      {
+        "sel": "t:ухо гоблина",
+        "n": 1
+      },
+      {
+        "sel": "t:скупка инструмента",
+        "n": 2
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "universitet",
+    "route": "/university",
+    "settle": 3400,
+    "callouts": [
+      {
+        "sel": "t:университет · обучение",
+        "n": 1
+      },
+      {
+        "sel": "t:жители · кого учим",
+        "n": 2
+      },
+      {
+        "sel": "t:лестница тиров",
+        "n": 3
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "sklad",
+    "route": "/storehouse",
+    "settle": 3000,
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "zhiteli",
+    "route": "/residents",
+    "settle": 3400,
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "podzemye",
+    "route": "/mine",
+    "settle": 4200,
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "pasport",
+    "route": "/",
+    "settle": 3200,
+    "before": [
+      [
+        "click",
+        "button.rcard",
+        2400
+      ]
+    ],
+    "callouts": [
+      {
+        "sel": "t:сменить имя",
+        "n": 1,
+        "side": "right"
+      },
+      {
+        "sel": "t:Развитие",
+        "n": 2,
+        "side": "right"
+      },
+      {
+        "sel": "t:боевой лист",
+        "n": 3
+      },
+      {
+        "sel": "t:поручение · сейчас",
+        "n": 4
+      }
+    ],
+    "clip": {
+      "sel": "[role=dialog]",
+      "pad": 6
+    },
+    "trim": true
+  },
+  {
+    "name": "vrag-kartochka",
+    "route": "/world",
+    "settle": 5200,
+    "before": [
+      [
+        "key",
+        "Escape",
+        900
+      ],
+      [
+        "mouse",
+        [
+          "canvas",
+          0.47,
+          0.5
+        ],
+        1600
+      ]
+    ],
+    "clip": {
+      "sel": "main.cg-col.map",
+      "pad": 8
+    },
+    "trim": true,
+    "callouts": []
+  },
+  {
+    "name": "swagger",
+    "url": "https://kindomklaster.com/docs",
+    "settle": 5000,
+    "callouts": [
+      {
+        "sel": "b:Authorize",
+        "n": 1,
+        "side": "right"
+      }
+    ],
+    "trim": true
+  },
+  {
+    "name": "lavka",
+    "route": "/shop",
+    "settle": 3000,
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "hram",
+    "route": "/temple",
+    "settle": 3000,
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "biblioteka",
+    "route": "/library",
+    "settle": 4000,
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "kuznitsa",
+    "route": "/forge",
+    "settle": 3400,
+    "callouts": [],
+    "trim": true
+  },
+  {
+    "name": "mir-chisto",
+    "route": "/world",
+    "settle": 5200,
+    "clip": {
+      "sel": "main.cg-col.map",
+      "pad": 8
+    },
+    "trim": true,
+    "callouts": []
+  },
+  {
+    "name": "pasport-boy",
+    "route": "/",
+    "settle": 3200,
+    "before": [
+      [
+        "click",
+        "button.rcard",
+        2400
+      ]
+    ],
+    "clip": {
+      "sel": "[role=dialog]",
+      "pad": 6
+    },
+    "trim": true,
+    "callouts": [
+      {
+        "sel": "t:боевой лист",
+        "n": 1
+      },
+      {
+        "sel": "t:Развитие",
+        "n": 2,
+        "side": "right"
+      }
+    ]
+  }
+]

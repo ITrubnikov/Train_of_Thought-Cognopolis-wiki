@@ -36,24 +36,35 @@ theme:
   features:
     - navigation.sections
     - navigation.top
+    - navigation.tracking
+    - navigation.footer
     - toc.follow
     - search.suggest
+    - search.highlight
     - content.code.copy
 
+# Свой слой поверх Material: тёмный фон игры, янтарный акцент, скриншоты с обводками
+# и нумерованные легенды под ними (номера легенды = номера на картинке).
+extra_css:
+  - assets/css/wiki.css
+
+# Порядок разделов — по пути новичка: сначала «как начать», потом механики, в конце контекст.
 nav:
   - Главная: index.md
-  - Обзор:
-      - Концепция: 01-обзор/концепция.md
-      - Роадмап: 01-обзор/роадмап.md
   - Игроку:
       - Быстрый старт: 02-игроку/быстрый-старт.md
+      - Экраны игры: 02-игроку/экраны-игры.md
       - Свой агент: 02-игроку/свой-агент.md
-  - Системы:
+  - Механики:
       - Мир и карта: 03-системы/мир-и-карта.md
       - Бой: 03-системы/бой.md
       - Крафт и здания: 03-системы/крафт-и-здания.md
       - Экономика и Базар: 03-системы/экономика-и-базар.md
       - Жители и задачи: 03-системы/жители-и-задачи.md
+      - Подземье: 03-системы/подземье.md
+  - Обзор:
+      - Концепция: 01-обзор/концепция.md
+      - Куда растёт игра: 01-обзор/роадмап.md
   # Раздел «Разработчику» (docs/04-разработчику) — внутренний, в публичную вики НЕ публикуется:
   # build.sh удаляет его из стейджа (решение автора 2026-07-12: вики — только игроку, движок не выкладываем).
 
@@ -62,8 +73,16 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - tables
+  - footnotes
   - toc:
       permalink: true
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  # Иконки Material в плитках разделов инлайнятся как SVG — внешних запросов нет, CSP цела.
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -76,6 +95,19 @@ markdown_extensions:
 plugins:
   - search:
       lang: ru
+  # Скриншоты кликом разворачиваются на весь экран: в колонке текста мелкие надписи
+  # интерфейса не прочитать, а обводки без подписи под лупой бесполезны.
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: fade
+      slide_effect: none
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: false
+      skip_classes:
+        - no-zoom
 
 # Ссылка «редактировать» не нужна — витрина правится агентами по конвейеру, не PR-ами гостей.
 # validation: warn → билд честно перечисляет битые ссылки; absolute_links тоже ловим.

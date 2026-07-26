@@ -1,0 +1,305 @@
+/* Вики Cognopolis — визуальный слой поверх MkDocs Material.
+   Задача темы: страница должна читаться как продолжение игры (тёмный фон, янтарный акцент)
+   и как инструкция (крупные шаги, скриншоты с обводками и нумерованные легенды под ними).
+   Номера в легенде .callouts совпадают с номерами обводок на скриншоте — они рисуются
+   одним и тем же янтарным цветом (--cg-amber). */
+
+:root {
+  --cg-amber: #f2a03d;
+  --cg-amber-soft: rgba(242, 160, 61, 0.14);
+  --cg-amber-line: rgba(242, 160, 61, 0.35);
+  --md-accent-fg-color: #ffb85c;
+}
+
+/* ── тёмная схема: фон игры, а не фиолетовый по умолчанию ─────────────────── */
+[data-md-color-scheme="slate"] {
+  --md-hue: 30;
+  --md-default-bg-color: #100d09;
+  --md-default-bg-color--light: #17130d;
+  --md-primary-fg-color: #17120b;
+  --md-primary-bg-color: #f3e7d4;
+  --md-typeset-a-color: var(--cg-amber);
+  --md-code-bg-color: #1b1610;
+  --md-footer-bg-color: #17120b;
+}
+
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #7a4a12;
+  --md-primary-bg-color: #fff6e9;
+  --md-typeset-a-color: #a55b0c;
+}
+
+.md-header {
+  border-bottom: 1px solid var(--cg-amber-line);
+}
+
+/* Заголовки — плотнее и с янтарным разделителем: страница читается как инструкция. */
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h2 {
+  margin-top: 2.2em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--cg-amber-line);
+  font-weight: 700;
+}
+
+.md-typeset h3 {
+  margin-top: 1.6em;
+  font-weight: 600;
+}
+
+/* ── обложка главной ──────────────────────────────────────────────────────── */
+.cg-hero {
+  margin: 0 0 2.4rem;
+  padding: 1.6rem 1.8rem 1.8rem;
+  border: 1px solid var(--cg-amber-line);
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 140% at 12% -20%, rgba(242, 160, 61, 0.16), transparent 55%),
+    linear-gradient(180deg, rgba(242, 160, 61, 0.06), rgba(0, 0, 0, 0));
+}
+
+.cg-hero .cg-kicker {
+  margin: 0 0 0.35rem;
+  color: var(--cg-amber);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.md-typeset .cg-hero h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.85rem;
+  color: var(--md-default-fg-color);
+}
+
+/* Кнопки Material берут цвет из primary, а primary у нас почти чёрный — в тёмной схеме
+   вторичная кнопка иначе сливается с фоном. Красим сами. */
+.md-typeset .md-button--primary {
+  background: var(--cg-amber);
+  border-color: var(--cg-amber);
+  color: #1a1206;
+}
+
+.md-typeset .md-button--primary:hover,
+.md-typeset .md-button--primary:focus {
+  background: #ffb85c;
+  border-color: #ffb85c;
+  color: #1a1206;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary) {
+  color: var(--cg-amber);
+  border-color: var(--cg-amber-line);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary):hover,
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary):focus {
+  background: var(--cg-amber-soft);
+  border-color: var(--cg-amber);
+  color: #ffd9a3;
+}
+
+.cg-hero p {
+  max-width: 46em;
+  margin: 0.35rem 0 0;
+}
+
+.cg-hero .cg-cta {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.md-typeset .cg-hero .md-button {
+  margin: 0;
+}
+
+/* ── скриншот + подпись ───────────────────────────────────────────────────── */
+.md-typeset figure.shot,
+.md-typeset .shot {
+  margin: 1.6em 0 0.9em;
+}
+
+/* Вертикальные кадры (карточка входа, боковая панель) не должны занимать весь экран —
+   отсюда потолок по высоте и центрирование вместо width:100%. */
+.md-typeset .shot img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 78vh;
+  margin: 0 auto;
+  border: 1px solid var(--cg-amber-line);
+  border-radius: 12px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+  cursor: zoom-in;
+}
+
+.md-typeset .shot figcaption,
+.md-typeset .shot > em {
+  display: block;
+  margin-top: 0.55em;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.74rem;
+  font-style: normal;
+  text-align: center;
+}
+
+/* ── легенда к обводкам: номера те же, что на картинке ────────────────────── */
+.md-typeset .callouts {
+  margin: 0.2em 0 1.8em;
+  padding: 0.9rem 1rem 0.9rem 0.6rem;
+  border: 1px solid var(--cg-amber-line);
+  border-radius: 12px;
+  background: var(--cg-amber-soft);
+}
+
+.md-typeset .callouts ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: cg-callout;
+}
+
+.md-typeset .callouts li {
+  position: relative;
+  margin: 0.1em 0;
+  padding: 0.22em 0 0.22em 2.3rem;
+  counter-increment: cg-callout;
+}
+
+.md-typeset .callouts li::before {
+  content: counter(cg-callout);
+  position: absolute;
+  left: 0.35rem;
+  top: 0.2em;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--cg-amber);
+  color: #1a1206;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  text-align: center;
+}
+
+/* ── шаги процедуры: крупная нумерация, одна мысль на шаг ─────────────────── */
+.md-typeset .steps ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: cg-step;
+}
+
+.md-typeset .steps > ol > li {
+  position: relative;
+  margin: 0 0 0.55em;
+  padding: 0.15em 0 0.55em 2.6rem;
+  border-bottom: 1px dashed rgba(242, 160, 61, 0.18);
+  counter-increment: cg-step;
+}
+
+.md-typeset .steps > ol > li:last-child {
+  border-bottom: 0;
+}
+
+.md-typeset .steps > ol > li::before {
+  content: counter(cg-step);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--cg-amber);
+  border-radius: 8px;
+  color: var(--cg-amber);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.65rem;
+  text-align: center;
+}
+
+/* ── карточки-плитки разделов ─────────────────────────────────────────────── */
+.md-typeset .grid.cards > ul > li {
+  border: 1px solid var(--cg-amber-line);
+  border-radius: 12px;
+  transition: border-color 120ms, transform 120ms;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--cg-amber);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+
+/* ── «если коротко»: сводка в три строки в начале страницы ────────────────── */
+.md-typeset .cg-tldr {
+  margin: 0 0 1.8em;
+  padding: 0.9rem 1.1rem;
+  border-left: 3px solid var(--cg-amber);
+  border-radius: 0 10px 10px 0;
+  background: var(--cg-amber-soft);
+}
+
+.md-typeset .cg-tldr > :first-child {
+  margin-top: 0;
+}
+
+.md-typeset .cg-tldr > :last-child {
+  margin-bottom: 0;
+}
+
+.md-typeset .cg-tldr ul {
+  margin-bottom: 0;
+}
+
+/* ── код ──────────────────────────────────────────────────────────────────── */
+
+/* Длинную команду установки в колонке текста иначе не прочитать: у shell-блоков
+   разрешаем перенос, у листингов оставляем горизонтальную прокрутку (отступы важны). */
+.md-typeset .language-bash code,
+.md-typeset .language-sh code,
+.md-typeset .language-console code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* В таблицах код переносится по границе слова, а не «где придётся»: длинный код-токен
+   уезжает на свою строку целиком, но таблица не начинает вылезать за колонку. */
+.md-typeset table:not([class]) code {
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* ── таблицы: плотнее, без лишних рамок ───────────────────────────────────── */
+.md-typeset table:not([class]) {
+  border: 1px solid var(--cg-amber-line);
+  border-radius: 10px;
+  font-size: 0.74rem;
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--cg-amber-soft);
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+}
+
+/* Блок «Источники» в конце страницы — служебный, не должен спорить с текстом. */
+.md-typeset .sources {
+  margin-top: 2.5em;
+  padding-top: 0.6em;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color--light);
+  font-size: 0.7rem;
+}
+
+.md-typeset .sources ul {
+  margin-top: 0.3em;
+}

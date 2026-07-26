@@ -15,12 +15,17 @@ cp -R docs/. .build/docs/
 # Публичная вики — ТОЛЬКО игроку (решение автора 2026-07-12): раздел разработчика —
 # внутренний, движок не выкладываем. Страницы остаются в docs/ для команды.
 rm -rf '.build/docs/04-разработчику'
-# README — обложка репо → главная страница вики; её ссылки вида (docs/…) становятся (…),
-# блоки <!-- wiki:internal-start/end --> (команда/разработчик) вырезаются.
-sed 's|](docs/|](|g' README.md | sed '/wiki:internal-start/,/wiki:internal-end/d' > .build/docs/index.md
+# Главная вики — docs/index.md (обложка с плитками и скриншотом), она копируется вместе с docs/.
+# README.md остаётся обложкой РЕПО для GitHub: там нет разметки Material, зато читается без рендера.
+# Если своей главной нет — падаем на старое поведение: README стейджится как index (ссылки (docs/…)
+# укорачиваются, блоки <!-- wiki:internal-start/end --> вырезаются).
+if [ ! -f docs/index.md ]; then
+    sed 's|](docs/|](|g' README.md | sed '/wiki:internal-start/,/wiki:internal-end/d' > .build/docs/index.md
+fi
 
 if command -v uv >/dev/null 2>&1; then
-    uv tool run --from 'mkdocs>=1.6,<2' --with 'mkdocs-material>=9.5,<10' mkdocs build
+    uv tool run --from 'mkdocs>=1.6,<2' --with 'mkdocs-material>=9.5,<10' \
+        --with 'mkdocs-glightbox>=0.4,<1' mkdocs build
 else
     mkdocs build
 fi
